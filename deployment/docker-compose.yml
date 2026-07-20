@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  bot:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    container_name: viral-shorts-bot
+    restart: unless-stopped
+    volumes:
+      - ../data:/app/data
+      - ../.env:/app/.env:ro
+      - ../broll:/app/data/broll:ro
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TEMP_DIR=/app/data/temp
+      - OUTPUTS_DIR=/app/data/outputs
+      - UPLOADS_DIR=/app/data/uploads
+      - BROLL_DIRS=/app/data/broll
+    depends_on: []
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "3"
+    # Resource limits for video processing
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "2"

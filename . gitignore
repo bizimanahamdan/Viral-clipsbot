@@ -1,0 +1,26 @@
+.env.example
+
+# Python cache and build files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+env/
+venv/
+
+# Bot local storage, outputs, logs, and temp files
+viral-shorts-bot/uploads/*
+!viral-shorts-bot/uploads/.gitkeep
+viral-shorts-bot/outputs/*
+!viral-shorts-bot/outputs/.gitkeep
+viral-shorts-bot/cache/*
+!viral-shorts-bot/cache/.gitkeep
+viral-shorts-bot/logs/*
+!viral-shorts-bot/logs/.gitkeep
+viral-shorts-bot/temp/*
+!viral-shorts-bot/temp/.gitkeep
+
+# IDE files
+.vscode/
+.idea/
