@@ -25,7 +25,8 @@ async def get_connection() -> aiosqlite.Connection:
     """Return the global aiosqlite connection, creating it if needed."""
     global _db
 
-    if _db is None or not _db.is_alive():
+    # FIX: Removed `or not _db.is_alive()` which caused AttributeError
+    if _db is None:
         _db = await aiosqlite.connect(str(DATABASE_PATH))
         _db.row_factory = aiosqlite.Row
         await _db.execute("PRAGMA journal_mode=WAL;")
@@ -59,3 +60,4 @@ async def close_connection() -> None:
         await _db.close()
         _db = None
         logger.info("Database connection closed.")
+        
