@@ -1,8 +1,17 @@
+from __future__ import annotations
+
+import asyncio
+import logging
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import signal
+import sys
 import threading
+from pathlib import Path
 
-# 1. Create a dummy handler that returns HTTP 200 OK
+# ---------------------------------------------------------------------------
+# Dummy HTTP Server for Render Port-Binding
+# ---------------------------------------------------------------------------
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -14,33 +23,8 @@ def run_dummy_server():
     server = HTTPServer(('0.0.0.0', port), SimpleHandler)
     server.serve_forever()
 
-# 2. Run the dummy server in a separate background thread so it doesn't block your Telegram bot
 server_thread = threading.Thread(target=run_dummy_server, daemon=True)
 server_thread.start()
-
-# --- Your existing bot startup code follows below ---
-
-"""
-Viral Shorts Bot — Main Entry Point.
-
-Initialises the Telegram bot, registers all handlers, starts the
-background queue manager, and begins long-polling.
-
-Usage::
-
-    python -m bot.main
-    # or
-    python bot/main.py
-"""
-
-from __future__ import annotations
-
-import asyncio
-import logging
-import os
-import signal
-import sys
-from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Ensure the project root is on the Python path
@@ -333,3 +317,4 @@ async def _post_stop(application) -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
