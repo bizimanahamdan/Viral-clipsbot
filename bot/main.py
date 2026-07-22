@@ -1,6 +1,3 @@
-import static_ffmpeg
-static_ffmpeg.add_paths()
-
 from __future__ import annotations
 
 import asyncio
@@ -13,6 +10,12 @@ import threading
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
+# Initialize FFmpeg static binaries
+# ---------------------------------------------------------------------------
+import static_ffmpeg
+static_ffmpeg.add_paths()
+
+# ---------------------------------------------------------------------------
 # Dummy HTTP Server for Render Port-Binding
 # ---------------------------------------------------------------------------
 class SimpleHandler(BaseHTTPRequestHandler):
@@ -20,6 +23,10 @@ class SimpleHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b"Bot is alive!")
+
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
 
 def run_dummy_server():
     port = int(os.environ.get("PORT", 10000))
